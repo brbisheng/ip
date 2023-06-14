@@ -5,6 +5,14 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <h2>Binomial Probability Density Function</h2>
+  <div>
+    <label for="nInput">n:</label>
+    <input type="number" id="nInput" min="1" value="10">
+    <label for="pInput">p:</label>
+    <input type="number" id="pInput" min="0" max="1" step="0.01" value="0.5">
+    <button onclick="updateChart()">Draw Chart</button>
+  </div>
   <canvas id="myChart"></canvas>
 
   <script>
@@ -65,7 +73,14 @@
       });
     }
 
-    // Example usage: drawBinomialPDFChart(10, 0.5);
+    // Update the chart based on user input
+    function updateChart() {
+      var n = parseInt(document.getElementById("nInput").value);
+      var p = parseFloat(document.getElementById("pInput").value);
+      drawBinomialPDFChart(n, p);
+    }
+
+    // Initial chart rendering
     drawBinomialPDFChart(10, 0.5);
   </script>
 </body>
