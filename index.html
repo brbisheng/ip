@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>Binomial Probability Density Function</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+
+  <script>
+    // Function to calculate binomial coefficient (n choose k)
+    function binomialCoefficient(n, k) {
+      if (k === 0 || k === n) {
+        return 1;
+      } else {
+        return binomialCoefficient(n - 1, k - 1) + binomialCoefficient(n - 1, k);
+      }
+    }
+
+    // Function to calculate binomial probability
+    function binomialProbability(n, k, p) {
+      return binomialCoefficient(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+    }
+
+    // Generate data for the binomial probability density function
+    function generateBinomialPDFData(n, p) {
+      var data = [];
+
+      for (var k = 0; k <= n; k++) {
+        var probability = binomialProbability(n, k, p);
+        data.push(probability);
+      }
+
+      return data;
+    }
+
+    // Draw the binomial probability density function chart
+    function drawBinomialPDFChart(n, p) {
+      var ctx = document.getElementById("myChart").getContext("2d");
+
+      var data = generateBinomialPDFData(n, p);
+      var labels = Array.from({ length: n + 1 }, (_, i) => i.toString());
+
+      var chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Binomial Probability Density Function",
+              data: data,
+              backgroundColor: "rgba(75, 192, 192, 0.6)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // Example usage: drawBinomialPDFChart(10, 0.5);
+    drawBinomialPDFChart(10, 0.5);
+  </script>
+</body>
+</html>
