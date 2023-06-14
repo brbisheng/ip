@@ -3,6 +3,23 @@
 <head>
   <title>Binomial Probability Density Function</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
   <h2>Binomial Probability Density Function</h2>
@@ -14,6 +31,17 @@
     <button onclick="updateChart()">Draw Chart</button>
   </div>
   <canvas id="myChart"></canvas>
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>X</th>
+        <th>Probability Density</th>
+        <th>Cumulative Probability</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
   <script>
     // Function to calculate binomial coefficient (n choose k)
@@ -76,6 +104,45 @@
           }
         }
       });
+
+      // Update the table
+      updateTable(n, p);
+    }
+
+    // Update the table with probability density and cumulative probability values
+    function updateTable(n, p) {
+      var tableBody = document.querySelector("#dataTable tbody");
+      tableBody.innerHTML = "";
+
+      for (var k = 0; k <= n; k++) {
+        var probabilityDensity = binomialProbability(n, k, p);
+        var cumulativeProbability = calculateCumulativeProbability(n, k, p);
+
+        var row = document.createElement("tr");
+        var xCell = document.createElement("td");
+        var pdCell = document.createElement("td");
+        var cpCell = document.createElement("td");
+
+        xCell.textContent = k;
+        pdCell.textContent = probabilityDensity.toFixed(4);
+        cpCell.textContent = cumulativeProbability.toFixed(4);
+
+        row.appendChild(xCell);
+        row.appendChild(pdCell);
+        row.appendChild(cpCell);
+        tableBody.appendChild(row);
+      }
+    }
+
+    // Function to calculate cumulative probability
+    function calculateCumulativeProbability(n, k, p) {
+      var cumulativeProbability = 0;
+
+      for (var i = 0; i <= k; i++) {
+        cumulativeProbability += binomialProbability(n, i, p);
+      }
+
+      return cumulativeProbability;
     }
 
     // Update the chart based on user input
