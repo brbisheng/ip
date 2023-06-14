@@ -49,7 +49,12 @@
       var data = generateBinomialPDFData(n, p);
       var labels = Array.from({ length: n + 1 }, (_, i) => i.toString());
 
-      var chart = new Chart(ctx, {
+      // Clear previous chart, if any
+      if (window.chart) {
+        window.chart.destroy();
+      }
+
+      window.chart = new Chart(ctx, {
         type: "bar",
         data: {
           labels: labels,
